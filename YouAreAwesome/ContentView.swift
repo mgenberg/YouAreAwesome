@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var displayMessage = "You Are Great!"
+    @State private var displayMessage = ""
     
     var body: some View {
         VStack {
@@ -18,8 +18,16 @@ struct ContentView: View {
                 .foregroundColor(.red)
                 .padding()
             
-            Button("Press Me") {
-                displayMessage = "You Are Awesome!"
+            HStack {
+                Button("Awesome"){
+                    displayMessage = "You Are Awesome!"
+                }
+                .buttonStyle(.borderedProminent)
+                
+                Button("Great"){
+                    displayMessage = "You Are Great!"
+                }
+                .buttonStyle(.borderedProminent)
             }
         }
     }
