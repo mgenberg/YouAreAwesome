@@ -9,10 +9,19 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var displayMessage = ""
+    @State private var imageName = ""
+    @State private var imageNumber = 0
     
     var body: some View {
         
         VStack {
+            Image(imageName)
+                .resizable()
+                .scaledToFit()
+                .cornerRadius(30)
+                .shadow(radius: 30)
+                .padding()
+            
             Spacer()
             
             Text(displayMessage)
@@ -31,11 +40,12 @@ struct ContentView: View {
                 let message1 = "You Are Awesome!"
                 let message2 = "You Are Great!"
                 
-                if displayMessage == message1 {
-                    displayMessage = message2
-                }
-                else {
-                    displayMessage = message1
+                displayMessage = (displayMessage == message1 ? message2 : message1)
+                imageName = "image\(imageNumber)"
+                
+                imageNumber += 1
+                if imageNumber > 5 {
+                    imageNumber = 0
                 }
             }
             .buttonStyle(.borderedProminent)
