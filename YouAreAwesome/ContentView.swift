@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import AVFAudio
 
 struct ContentView: View {
     @State private var displayMessage = ""
     @State private var lastDisplayNumber = -1
     @State private var imageName = ""
     @State private var lastImageNumber = -1
+    @State private var audioPlayer: AVAudioPlayer!
+    @State private var lastSoundNumber = -1
     
     var body: some View {
         
@@ -45,21 +48,36 @@ struct ContentView: View {
                                 "Swag!"]
                 var displayNumber: Int
                 var imageNumber: Int
+                var soundNumber: Int
                 
                 repeat {
                     displayNumber = Int.random(in: 0...messages.count-1)
                 } while displayNumber == lastDisplayNumber
+                displayMessage = messages[displayNumber]
                 lastDisplayNumber = displayNumber
                 
                 repeat {
                     imageNumber = Int.random(in: 0...5)
                 } while imageNumber == lastImageNumber
+                imageName = "image\(imageNumber)"
                 lastImageNumber = imageNumber
                 
-                displayMessage = messages[displayNumber]
-                imageName = "image\(imageNumber)"
+                repeat {
+                    soundNumber = Int.random(in: 0...5)
+                } while soundNumber == lastSoundNumber
+                let soundName = "sound\(soundNumber)"
+                lastSoundNumber = soundNumber
                 
-
+                guard let soundFile = NSDataAsset(name: soundName) else {
+                    print("😅 Could not read file named \(soundName)")
+                    return
+                }
+                do {
+                    audioPlayer = try AVAudioPlayer(data: soundFile.data)
+                    audioPlayer.play()
+                } catch {
+                    print("😅 ERROR: \(error.localizedDescription) creating audioPlayer.")
+                }
             }
             .buttonStyle(.borderedProminent)
             .padding()
